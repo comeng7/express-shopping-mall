@@ -1,3 +1,5 @@
+import swaggerJsdoc from 'swagger-jsdoc';
+
 const swaggerPath = process.env.NODE_ENV === 'production' ? './dist/routes/*.js' : './src/routes/*.ts';
 
 const options = {
@@ -17,3 +19,5 @@ const options = {
   },
   apis: [swaggerPath],
 };
+
+export const specs = swaggerJsdoc(options);
