@@ -6,15 +6,15 @@
   "private": true,
   "scripts": {
     "start": "node ./dist/app.js",
-    "dev:mock": "NODE_ENV=development ts-node -r tsconfig-paths/register src/app.ts dotenv_config_path=.env.local",
-    "dev:prod": "NODE_ENV=production ts-node -r tsconfig-paths/register src/app.ts dotenv_config_path=.env.prod",
+    "dev:mock": "env-cmd -f .env.local ts-node -r tsconfig-paths/register src/app.ts",
+    "dev:prod": "env-cmd -f .env.prod ts-node -r tsconfig-paths/register src/app.ts",
     "build": "tsc && tsc-alias",
     "lint": "eslint . --ext .ts",
-    "clean": "rm -rf node_modules && rm -rf package-lock.json && npm cache clean --force && npm install"
+    "clean": "rm -rf node_modules && rm -rf package-lock.json && npm cache clean --force && npm install",
+    "pm2": "pm2 delete shopping-mall && pm2 start 'env-cmd -f .env node dist/app.js' --name shopping-mall"
   },
   "dependencies": {
     "@types/express": "^5.0.0",
-    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mysql2": "^3.12.0",
     "swagger-jsdoc": "^6.2.8",
@@ -25,6 +25,7 @@
     "@types/node": "^22.10.2",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.7",
+    "env-cmd": "^10.1.0",
     "eslint": "^9.17.0",
     "globals": "^15.14.0",
     "nodemon": "^3.1.9",
