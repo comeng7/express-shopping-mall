@@ -12,7 +12,7 @@ const options = {
     },
     servers: [
       {
-        url: process.env.NODE_ENV === 'production' ? `http://${process.env.EC2_PUBLIC_IP}:${process.env.PORT || 3000}` : `http://localhost:${process.env.PORT || 3000}`,
+        url: process.env.NODE_ENV === 'production' ? `http://${process.env.EC2_PUBLIC_IP}` : `http://localhost:${process.env.PORT || 3000}`,
         description: process.env.NODE_ENV === 'production' ? '운영 서버' : '개발 서버',
       },
     ],
