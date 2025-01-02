@@ -22,7 +22,13 @@ export class ProductService {
     if (category) {
       query += ` AND c.code = ?`;
       const [rows] = await db.query(query, [category]);
-      return rows as IProduct[];
+      const products = (rows as IProduct[]).map((product) => ({
+        ...product,
+        is_new: Boolean(product.is_new),
+        is_best: Boolean(product.is_best),
+      }));
+
+      return products;
     }
 
     const [rows] = await db.query(query);
