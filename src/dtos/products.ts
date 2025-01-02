@@ -6,12 +6,10 @@ export interface ProductResponseDto {
   id: number;
   name: string;
   price: number;
-  imageUrl: string;
-  category: TProductCategory;
+  image_url: string;
+  category_name: string;
+  is_new: boolean;
+  is_best: boolean;
+  color: string;
   description: string;
-  isNew: boolean;
-  isBest: boolean;
-  viewCount: number;
-  salesCount: number;
-  createdAt: Date;
 }

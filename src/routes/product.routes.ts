@@ -8,7 +8,7 @@ const productController = new ProductController();
  * @swagger
  * components:
  *   schemas:
- *     productCategory:
+ *     ProductCategory:
  *       type: string
  *       enum: [TWIN_BAG, REMOOD_BAG, CLO_BAG, MINIMAL_BAG, ACCESSORY]
  *     ProductResponse:
@@ -24,42 +24,36 @@ const productController = new ProductController();
  *         - id
  *         - name
  *         - price
- *         - imageUrl
- *         - category
+ *         - image_url
+ *         - category_name
  *       properties:
  *         id:
  *           type: integer
  *           example: 1
  *         name:
  *           type: string
- *           example: "클래식 토트백"
+ *           example: "FUR Large"
  *         price:
  *           type: number
- *           example: 259000
- *         imageUrl:
+ *           example: 95000
+ *         image_url:
  *           type: string
- *           example: "https://example.com/images/bag1.jpg"
- *         category:
- *           $ref: '#/components/schemas/productCategory'
+ *           example: "https://shopping-mall-images.s3.ap-northeast-2.amazonaws.com/products/allitems1.jpg"
+ *         category_name:
+ *           type: string
+ *           example: "TWIN BAG"
  *         description:
  *           type: string
- *           example: "클래식한 디자인의 토트백입니다."
- *         isNew:
+ *           example: "Limited Edition Twin Bag"
+ *         color:
+ *           type: string
+ *           example: "shakerato (LIMITED)"
+ *         is_new:
  *           type: boolean
  *           example: true
- *         isBest:
+ *         is_best:
  *           type: boolean
- *           example: false
- *         viewCount:
- *           type: integer
- *           example: 1200
- *         salesCount:
- *           type: integer
- *           example: 50
- *         createdAt:
- *           type: string
- *           format: date-time
- *           example: "2024-01-01T00:00:00Z"
+ *           example: true
  */
 
 /**
@@ -72,7 +66,7 @@ const productController = new ProductController();
  *       - in: query
  *         name: category
  *         schema:
- *           $ref: '#/components/schemas/productCategory'
+ *           $ref: '#/components/schemas/ProductCategory'
  *         required: false
  *         description: 선택적 카테고리 필터 (미입력시 전체 카테고리 조회)
  *     responses:
@@ -86,16 +80,14 @@ const productController = new ProductController();
  *               data: [
  *                 {
  *                   id: 1,
- *                   name: "클래식 토트백",
- *                   price: 259000,
- *                   imageUrl: "https://example.com/images/bag1.jpg",
- *                   category: "TWIN_BAG",
- *                   description: "클래식한 디자인의 토트백입니다.",
- *                   isNew: true,
- *                   isBest: false,
- *                   viewCount: 1200,
- *                   salesCount: 50,
- *                   createdAt: "2024-01-01T00:00:00Z"
+ *                   name: "FUR Large",
+ *                   price: 95000,
+ *                   image_url: "https://shopping-mall-images.s3.ap-northeast-2.amazonaws.com/products/allitems1.jpg",
+ *                   category_name: "TWIN BAG",
+ *                   description: "Limited Edition Twin Bag",
+ *                   color: "shakerato (LIMITED)",
+ *                   is_new: true,
+ *                   is_best: true
  *                 }
  *               ]
  */
@@ -118,16 +110,14 @@ router.get('/', productController.getAllProducts);
  *               data: [
  *                 {
  *                   id: 2,
- *                   name: "미니멀 크로스백",
- *                   price: 189000,
- *                   imageUrl: "https://example.com/images/bag2.jpg",
- *                   category: "MINIMAL_BAG",
- *                   description: "미니멀한 디자인의 크로스백입니다.",
- *                   isNew: true,
- *                   isBest: false,
- *                   viewCount: 800,
- *                   salesCount: 30,
- *                   createdAt: "2024-01-01T00:00:00Z"
+ *                   name: "FUR",
+ *                   price: 160000,
+ *                   image_url: "https://shopping-mall-images.s3.ap-northeast-2.amazonaws.com/products/allitems2.jpg",
+ *                   category_name: "TWIN BAG",
+ *                   description: "Classic Twin Bag Design",
+ *                   color: "shakerato",
+ *                   is_new: true,
+ *                   is_best: false
  *                 }
  *               ]
  */
@@ -150,16 +140,14 @@ router.get('/new', productController.getNewProducts);
  *               data: [
  *                 {
  *                   id: 3,
- *                   name: "리무드 숄더백",
- *                   price: 299000,
- *                   imageUrl: "https://example.com/images/bag3.jpg",
- *                   category: "REMOOD_BAG",
- *                   description: "인기 많은 숄더백입니다.",
- *                   isNew: false,
- *                   isBest: true,
- *                   viewCount: 2500,
- *                   salesCount: 150,
- *                   createdAt: "2023-12-01T00:00:00Z"
+ *                   name: "tobo L",
+ *                   price: 360000,
+ *                   image_url: "https://shopping-mall-images.s3.ap-northeast-2.amazonaws.com/products/allitems3.jpg",
+ *                   category_name: "MINIMAL BAG",
+ *                   description: "Premium Minimal Design",
+ *                   color: "sand",
+ *                   is_new: false,
+ *                   is_best: true
  *                 }
  *               ]
  */
@@ -190,17 +178,15 @@ router.get('/best', productController.getBestProducts);
  *                   $ref: '#/components/schemas/Product'
  *             example:
  *               data: {
- *                 id: 5,
- *                 name: "클로 크로스백",
- *                 price: 229000,
- *                 imageUrl: "https://example.com/images/bag5.jpg",
- *                 category: "CLO_BAG",
- *                 description: "실용적인 디자인의 크로스백입니다.",
- *                 isNew: true,
- *                 isBest: false,
- *                 viewCount: 1000,
- *                 salesCount: 45,
- *                 createdAt: "2024-01-01T00:00:00Z"
+ *                 id: 4,
+ *                 name: "tobo L",
+ *                 price: 360000,
+ *                 image_url: "https://shopping-mall-images.s3.ap-northeast-2.amazonaws.com/products/allitems4.jpg",
+ *                 category_name: "MINIMAL BAG",
+ *                 description: "Premium Minimal Design",
+ *                 color: "brick",
+ *                 is_new: false,
+ *                 is_best: true
  *               }
  *       404:
  *         description: 상품을 찾을 수 없음
