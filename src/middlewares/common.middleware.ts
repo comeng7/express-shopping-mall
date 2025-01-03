@@ -1,13 +1,12 @@
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 
 export const commonMiddleware = [
-  cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-  }),
   express.json(),
   express.urlencoded({ extended: true }),
+  cors(),
+  helmet({
+    contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false,
+  }),
 ];

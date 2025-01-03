@@ -22,7 +22,7 @@ Express와 TypeScript를 기반으로 제작되었으며, 레이어드 아키텍
 ```
 src/
 ├── config/                # 환경 설정 관련 파일
-├── controllers/           # 요청/응답 처리 로직
+├── controllers/          # 요청/응답 처리 로직
 ├── services/             # 비즈니스 로직
 ├── repositories/         # 데이터베이스 접근 로직
 ├── entities/             # TypeORM 엔티티 정의
@@ -30,10 +30,11 @@ src/
 ├── middlewares/          # 미들웨어
 ├── routes/               # 라우트 정의
 ├── validators/           # Zod 스키마 정의
-├── utils/               # 유틸리티 함수
-├── errors/              # 커스텀 에러 클래스
-├── types/               # 타입 정의
-└── app.ts               # 앱 진입점
+├── utils/                # 유틸리티 함수
+├── errors/               # 커스텀 에러 클래스
+├── test/                 # 테스트
+├── types/                # 타입 정의
+└── app.ts                # 앱 진입점
 ```
 
 ## 아키텍처 레이어
