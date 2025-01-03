@@ -1,6 +1,7 @@
 # express-shopping-mall
 
-쇼핑몰 백엔드 API 서버입니다. Express와 TypeScript를 기반으로 제작되었으며, 레이어드 아키텍처 패턴을 따릅니다.
+쇼핑몰 백엔드 API 서버입니다.  
+Express와 TypeScript를 기반으로 제작되었으며, 레이어드 아키텍처 패턴을 따릅니다.
 
 ## 기술 스택
 
