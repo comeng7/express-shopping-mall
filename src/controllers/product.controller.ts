@@ -8,14 +8,17 @@ import { logger } from '@/config/logger.config';
 
 @Service()
 export class ProductController {
-  constructor(@Inject() private readonly productService: ProductService) {}
-
+  constructor(
+    @Inject()
+    private readonly productService: ProductService
+  ) {}
   /**
-   * @swagger
-   * /api/products:
+   * @openapi
+   * /products:
    *   get:
    *     summary: 모든 상품 조회
-   *     tags: [Products]
+   *     tags:
+   *       - Products
    *     responses:
    *       200:
    *         description: 상품 목록 조회 성공
@@ -55,11 +58,12 @@ export class ProductController {
   }
 
   /**
-   * @swagger
-   * /api/products/{id}:
+   * @openapi
+   * /products/{id}:
    *   get:
    *     summary: 특정 상품 조회
-   *     tags: [Products]
+   *     tags:
+   *       - Products
    *     parameters:
    *       - in: path
    *         name: id
@@ -114,11 +118,12 @@ export class ProductController {
   }
 
   /**
-   * @swagger
-   * /api/products:
+   * @openapi
+   * /products:
    *   post:
    *     summary: 상품 생성
-   *     tags: [Products]
+   *     tags:
+   *       - Products
    *     requestBody:
    *       required: true
    *       content:

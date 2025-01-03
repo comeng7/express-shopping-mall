@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { Repository, DataSource } from 'typeorm';
 import { Product } from '@/entities/Product.entity';
 import { CreateProductDto, UpdateProductDto } from '@/types/product.types';
@@ -7,7 +7,7 @@ import { CreateProductDto, UpdateProductDto } from '@/types/product.types';
 export class ProductRepository {
   private repository: Repository<Product>;
 
-  constructor(dataSource: DataSource) {
+  constructor(@Inject() private dataSource: DataSource) {
     this.repository = dataSource.getRepository(Product);
   }
 

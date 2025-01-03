@@ -1,12 +1,13 @@
+// routes/product.router.ts
 import { Router } from 'express';
-import { Container } from 'typedi';
 import { ProductController } from '@/controllers/product.controller';
+import { createControllerMiddleware } from '@/middlewares/controller.middleware';
 
 const router = Router();
-const productController = Container.get(ProductController);
+const useController = createControllerMiddleware(ProductController);
 
-router.get('/products', (req, res) => productController.getProducts.bind(productController)(req, res));
-router.get('/products/:id', (req, res) => productController.getProduct.bind(productController)(req, res));
-router.post('/products', (req, res) => productController.createProduct.bind(productController)(req, res));
+router.get('/products', useController('getProducts'));
+router.get('/products/:id', useController('getProduct'));
+router.post('/products', useController('createProduct'));
 
 export default router;

@@ -11,15 +11,15 @@ describe('Product API', () => {
     productService = Container.get(ProductService);
   });
 
-  describe('GET /api/products', () => {
+  describe('GET /products', () => {
     it('should return products list', async () => {
-      const response = await request(app).get('/api/products').expect(200);
+      const response = await request(app).get('/products').expect(200);
 
       expect(Array.isArray(response.body)).toBeTruthy();
     });
   });
 
-  describe('POST /api/products', () => {
+  describe('POST /products', () => {
     it('should create a new product', async () => {
       const productData = {
         name: 'Test Product',
@@ -30,7 +30,7 @@ describe('Product API', () => {
         color: 'Red',
       };
 
-      const response = await request(app).post('/api/products').send(productData).expect(201);
+      const response = await request(app).post('/products').send(productData).expect(201);
 
       expect(response.body).toHaveProperty('id');
       expect(response.body.name).toBe(productData.name);
