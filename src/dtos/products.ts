@@ -7,7 +7,7 @@ export interface ProductResponseDto {
   name: string;
   price: number;
   image_url: string;
-  category_name: string;
+  category: TProductCategory;
   is_new: boolean;
   is_best: boolean;
   color: string;
