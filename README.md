@@ -21,7 +21,7 @@ Express와 TypeScript를 기반으로 제작되었으며, 레이어드 아키텍
 
 ```
 src/
-├── config/                # 환경 설정 관련 파일
+├── config/               # 환경 설정 관련 파일
 ├── controllers/          # 요청/응답 처리 로직
 ├── services/             # 비즈니스 로직
 ├── repositories/         # 데이터베이스 접근 로직
@@ -76,7 +76,7 @@ src/
 npm install
 
 # 개발 서버 실행
-npm run dev:mock
+npm run dev
 
 # 프로덕션 빌드
 npm run build
