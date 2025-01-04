@@ -2,14 +2,14 @@ import 'reflect-metadata';
 import express, { Request, Response } from 'express';
 import { Container } from 'typedi';
 import { DataSource } from 'typeorm';
-import { commonMiddleware } from './middlewares/common.middleware';
-import { requestLogger } from './middlewares/logger.middleware';
-import { errorHandler } from './middlewares/error.middleware';
+import { commonMiddleware } from '@/middlewares/common.middleware';
+import { requestLogger } from '@/middlewares/logger.middleware';
+import { errorHandler } from '@/middlewares/error.middleware';
 import swaggerUi from 'swagger-ui-express';
-import { specs } from './config/swagger.config';
-import productRouter from './routes/product.routes';
-import { AppDataSource } from './config/typeorm.config';
-import { logger } from './config/logger.config';
+import { specs } from '@/config/swagger.config';
+import productRouter from '@/routes/product.routes';
+import { AppDataSource } from '@/config/typeorm.config';
+import { logger } from '@/config/logger.config';
 
 const app = express();
 

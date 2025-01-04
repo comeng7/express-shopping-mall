@@ -1,4 +1,4 @@
-import { BaseError } from './base.error';
+import { BaseError } from '@/errors/base.error';
 
 export class HttpError extends BaseError {
   constructor(statusCode: number, message: string, code?: string) {

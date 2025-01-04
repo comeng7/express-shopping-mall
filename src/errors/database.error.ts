@@ -1,4 +1,4 @@
-import { BaseError } from './base.error';
+import { BaseError } from '@/errors/base.error';
 
 export class DatabaseError extends BaseError {
   constructor(message: string, code = 'DATABASE_ERROR') {
