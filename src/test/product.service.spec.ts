@@ -1,6 +1,5 @@
 import { Container } from 'typedi';
 import { ProductService } from '@/services/product.service';
-import { CreateProductDto } from '@/types/product.types';
 
 describe('ProductService', () => {
   let productService: ProductService;
@@ -10,7 +9,7 @@ describe('ProductService', () => {
   });
 
   // it('should create a product', async () => {
-  //   const productDto: CreateProductDto = {
+  //   const productDto: TCreateProductDto = {
   //     name: 'Test Product',
   //     price: 1000,
   //     imageUrl: 'https://example.com/image.jpg',

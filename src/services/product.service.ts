@@ -3,47 +3,73 @@ import { ProductRepository } from '@/repositories/product.repository';
 import { logger } from '@/config/logger.config';
 import { ProductError, DatabaseError } from '@/errors';
 import { Product } from '@/entities/Product.entity';
-import { CreateProductDto } from '@/types/product.types';
-import { createProductSchema } from '@/validators/product.validator';
+import { TProductListResponse, TProductResponse } from '@/types/product.types';
+import { createProductSchema, TCreateProductDto } from '@/validators/product.validator';
 
 @Service()
 export class ProductService {
   constructor(@Inject() private productRepository: ProductRepository) {}
 
-  async getAllProducts(category?: string): Promise<Product[]> {
+  private getFilteredProduct(product: Product) {
+    return {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      category: product.category.name,
+      isNew: product.isNew,
+      isBest: product.isBest,
+      color: product.color,
+      description: product.description,
+    };
+  }
+
+  async getAllProducts(category?: string): Promise<TProductListResponse> {
     try {
-      return await this.productRepository.findAll(category);
+      const products = await this.productRepository.findAll(category);
+
+      return {
+        data: products.map(this.getFilteredProduct),
+      };
     } catch (error: unknown) {
       logger.error('Failed to fetch products:', error);
       throw DatabaseError.Query('상품 목록 조회 실패');
     }
   }
 
-  async getNewProducts(): Promise<Product[]> {
+  async getNewProducts(): Promise<TProductListResponse> {
     try {
-      return await this.productRepository.findNew();
+      const products = await this.productRepository.findNew();
+
+      return {
+        data: products.map(this.getFilteredProduct),
+      };
     } catch (error: unknown) {
       logger.error('Failed to fetch new products:', error);
       throw DatabaseError.Query('새로운 상품 목록 조회 실패');
     }
   }
 
-  async getBestProducts(): Promise<Product[]> {
+  async getBestProducts(): Promise<TProductListResponse> {
     try {
-      return await this.productRepository.findBest();
+      const products = await this.productRepository.findBest();
+
+      return {
+        data: products.map(this.getFilteredProduct),
+      };
     } catch (error: unknown) {
       logger.error('Failed to fetch best products:', error);
       throw DatabaseError.Query('베스트 상품 목록 조회 실패');
     }
   }
 
-  async getProductById(id: number): Promise<Product | null> {
+  async getProductById(id: number): Promise<TProductResponse | null> {
     try {
       const product = await this.productRepository.findById(id);
       if (!product) {
         throw ProductError.NotFound(id);
       }
-      return product;
+      return this.getFilteredProduct(product);
     } catch (error: unknown) {
       if (error instanceof ProductError) {
         throw error;
@@ -53,7 +79,7 @@ export class ProductService {
     }
   }
 
-  async createProduct(data: CreateProductDto) {
+  async createProduct(data: TCreateProductDto) {
     try {
       const validatedData = createProductSchema.parse(data);
       return await this.productRepository.create(validatedData);

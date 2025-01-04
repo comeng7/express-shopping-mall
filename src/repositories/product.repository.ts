@@ -1,7 +1,7 @@
 import { Inject, Service } from 'typedi';
 import { Repository, DataSource } from 'typeorm';
 import { Product } from '@/entities/Product.entity';
-import { CreateProductDto } from '@/types/product.types';
+import { TCreateProductDto } from '@/validators/product.validator';
 
 @Service()
 export class ProductRepository {
@@ -32,7 +32,7 @@ export class ProductRepository {
     return this.repository.createQueryBuilder('p').leftJoinAndSelect('p.category', 'c').where('p.id = :id', { id }).andWhere('p.deletedAt IS NULL').getOne();
   }
 
-  async create(data: CreateProductDto): Promise<Product> {
+  async create(data: TCreateProductDto): Promise<Product> {
     const product = this.repository.create(data);
     return this.repository.save(product);
   }

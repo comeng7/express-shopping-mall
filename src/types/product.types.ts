@@ -1,5 +1,20 @@
 import { z } from 'zod';
-import { createProductSchema, updateProductSchema } from '@/validators/product.validator';
 
-export type CreateProductDto = z.infer<typeof createProductSchema>;
-export type UpdateProductDto = z.infer<typeof updateProductSchema>;
+export const productResponseSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  price: z.number(),
+  imageUrl: z.string(),
+  category: z.string(),
+  isNew: z.boolean(),
+  isBest: z.boolean(),
+  color: z.string().optional(),
+  description: z.string().optional(),
+});
+
+export const productListResponseSchema = z.object({
+  data: z.array(productResponseSchema),
+});
+
+export type TProductResponse = z.infer<typeof productResponseSchema>;
+export type TProductListResponse = z.infer<typeof productListResponseSchema>;

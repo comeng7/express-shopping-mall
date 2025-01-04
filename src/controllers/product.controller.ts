@@ -5,6 +5,8 @@ import { ZodError } from 'zod';
 import { BaseError } from '@/errors';
 import { logger } from '@/config/logger.config';
 import { createProductSchema } from '@/validators/product.validator';
+import { CATEGORY_CODE } from '@/constants/category.constants';
+import { TCategoryCode } from '@/types/category.types';
 
 @Service()
 export class ProductController {
@@ -22,30 +24,37 @@ export class ProductController {
    *       - Products
    *     parameters:
    *       - in: query
-   *         name: category
+   *         name: categoryCode
    *         schema:
-   *           type: string
-   *         description: 카테고리 코드
+   *           $ref: '#/components/schemas/CategoryCode'
+   *         description: 카테고리 코드 (선택사항)
    *     responses:
    *       200:
    *         description: 상품 목록 조회 성공
    *         content:
    *           application/json:
    *             schema:
-   *               type: array
-   *               items:
-   *                 $ref: '#/components/schemas/Product'
+   *               type: object
+   *               properties:
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     $ref: '#/components/schemas/ProductResponse'
    *       500:
-   *         description: 서버 에러
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/Error'
+   *         $ref: '#/components/responses/InternalServerError'
    */
   async getProducts(req: Request, res: Response) {
     try {
-      const category = req.query.category as string | undefined;
-      const products = await this.productService.getAllProducts(category);
+      const categoryCode = req.query.categoryCode as TCategoryCode;
+      if (categoryCode && !Object.values(CATEGORY_CODE).includes(categoryCode)) {
+        return res.status(400).json({
+          status: 'error',
+          code: 'INVALID_CATEGORY',
+          message: '유효하지 않은 카테고리입니다.',
+        });
+      }
+
+      const products = await this.productService.getAllProducts(categoryCode);
       res.json(products);
     } catch (error: unknown) {
       if (error instanceof BaseError) {
@@ -78,9 +87,14 @@ export class ProductController {
    *         content:
    *           application/json:
    *             schema:
-   *               type: array
-   *               items:
-   *                 $ref: '#/components/schemas/Product'
+   *               type: object
+   *               properties:
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     $ref: '#/components/schemas/ProductResponse'
+   *       500:
+   *         $ref: '#/components/responses/InternalServerError'
    */
   async getNewProducts(req: Request, res: Response) {
     try {
@@ -117,9 +131,14 @@ export class ProductController {
    *         content:
    *           application/json:
    *             schema:
-   *               type: array
-   *               items:
-   *                 $ref: '#/components/schemas/Product'
+   *               type: object
+   *               properties:
+   *                 data:
+   *                   type: array
+   *                   items:
+   *                     $ref: '#/components/schemas/ProductResponse'
+   *       500:
+   *         $ref: '#/components/responses/InternalServerError'
    */
   async getBestProducts(req: Request, res: Response) {
     try {
@@ -163,30 +182,30 @@ export class ProductController {
    *         content:
    *           application/json:
    *             schema:
-   *               $ref: '#/components/schemas/Product'
+   *               $ref: '#/components/schemas/ProductResponse'
    *       404:
-   *         description: 상품을 찾을 수 없음
+   *         $ref: '#/components/responses/NotFound'
+   *       500:
+   *         $ref: '#/components/responses/InternalServerError'
    */
   async getProductById(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
       if (isNaN(id)) {
-        res.status(400).json({
+        return res.status(400).json({
           status: 'error',
           code: 'INVALID_ID',
           message: '유효하지 않은 상품 ID입니다.',
         });
-        return;
       }
 
       const product = await this.productService.getProductById(id);
       if (!product) {
-        res.status(404).json({
+        return res.status(404).json({
           status: 'error',
           code: 'NOT_FOUND',
           message: '상품을 찾을 수 없습니다.',
         });
-        return;
       }
 
       res.json(product);
@@ -227,9 +246,11 @@ export class ProductController {
    *         content:
    *           application/json:
    *             schema:
-   *               $ref: '#/components/schemas/Product'
+   *               $ref: '#/components/schemas/ProductResponse'
    *       400:
-   *         description: 잘못된 입력
+   *         $ref: '#/components/responses/ValidationError'
+   *       500:
+   *         $ref: '#/components/responses/InternalServerError'
    */
   async createProduct(req: Request, res: Response) {
     try {
