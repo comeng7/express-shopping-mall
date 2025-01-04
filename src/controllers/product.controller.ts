@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { Service, Inject } from 'typedi';
 import { ProductService } from '@/services/product.service';
-import { createProductSchema } from '@/types/product.types';
 import { ZodError } from 'zod';
 import { BaseError } from '@/errors';
 import { logger } from '@/config/logger.config';
+import { createProductSchema } from '@/validators/product.validator';
 
 @Service()
 export class ProductController {
@@ -12,13 +12,20 @@ export class ProductController {
     @Inject()
     private readonly productService: ProductService
   ) {}
+
   /**
-   * @openapi
-   * /products:
+   * @swagger
+   * /api/products:
    *   get:
-   *     summary: 모든 상품 조회
+   *     summary: 상품 목록 조회
    *     tags:
    *       - Products
+   *     parameters:
+   *       - in: query
+   *         name: category
+   *         schema:
+   *           type: string
+   *         description: 카테고리 코드
    *     responses:
    *       200:
    *         description: 상품 목록 조회 성공
@@ -37,7 +44,8 @@ export class ProductController {
    */
   async getProducts(req: Request, res: Response) {
     try {
-      const products = await this.productService.getProducts();
+      const category = req.query.category as string | undefined;
+      const products = await this.productService.getAllProducts(category);
       res.json(products);
     } catch (error: unknown) {
       if (error instanceof BaseError) {
@@ -58,8 +66,86 @@ export class ProductController {
   }
 
   /**
-   * @openapi
-   * /products/{id}:
+   * @swagger
+   * /api/products/new:
+   *   get:
+   *     summary: 신상품 목록 조회
+   *     tags:
+   *       - Products
+   *     responses:
+   *       200:
+   *         description: 신상품 목록 조회 성공
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/Product'
+   */
+  async getNewProducts(req: Request, res: Response) {
+    try {
+      const products = await this.productService.getNewProducts();
+      res.json(products);
+    } catch (error: unknown) {
+      if (error instanceof BaseError) {
+        res.status(error.statusCode).json({
+          status: 'error',
+          code: error.code,
+          message: error.message,
+        });
+      } else {
+        logger.error('Unexpected error:', error);
+        res.status(500).json({
+          status: 'error',
+          code: 'INTERNAL_SERVER_ERROR',
+          message: '서버 내부 오류가 발생했습니다.',
+        });
+      }
+    }
+  }
+
+  /**
+   * @swagger
+   * /api/products/best:
+   *   get:
+   *     summary: 베스트상품 목록 조회
+   *     tags:
+   *       - Products
+   *     responses:
+   *       200:
+   *         description: 베스트상품 목록 조회 성공
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/Product'
+   */
+  async getBestProducts(req: Request, res: Response) {
+    try {
+      const products = await this.productService.getBestProducts();
+      res.json(products);
+    } catch (error: unknown) {
+      if (error instanceof BaseError) {
+        res.status(error.statusCode).json({
+          status: 'error',
+          code: error.code,
+          message: error.message,
+        });
+      } else {
+        logger.error('Unexpected error:', error);
+        res.status(500).json({
+          status: 'error',
+          code: 'INTERNAL_SERVER_ERROR',
+          message: '서버 내부 오류가 발생했습니다.',
+        });
+      }
+    }
+  }
+
+  /**
+   * @swagger
+   * /api/products/{id}:
    *   get:
    *     summary: 특정 상품 조회
    *     tags:
@@ -80,12 +166,8 @@ export class ProductController {
    *               $ref: '#/components/schemas/Product'
    *       404:
    *         description: 상품을 찾을 수 없음
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/Error'
    */
-  async getProduct(req: Request, res: Response) {
+  async getProductById(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
       if (isNaN(id)) {
@@ -97,7 +179,16 @@ export class ProductController {
         return;
       }
 
-      const product = await this.productService.getProduct(id);
+      const product = await this.productService.getProductById(id);
+      if (!product) {
+        res.status(404).json({
+          status: 'error',
+          code: 'NOT_FOUND',
+          message: '상품을 찾을 수 없습니다.',
+        });
+        return;
+      }
+
       res.json(product);
     } catch (error: unknown) {
       if (error instanceof BaseError) {
@@ -118,8 +209,8 @@ export class ProductController {
   }
 
   /**
-   * @openapi
-   * /products:
+   * @swagger
+   * /api/products:
    *   post:
    *     summary: 상품 생성
    *     tags:
@@ -139,10 +230,6 @@ export class ProductController {
    *               $ref: '#/components/schemas/Product'
    *       400:
    *         description: 잘못된 입력
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/Error'
    */
   async createProduct(req: Request, res: Response) {
     try {

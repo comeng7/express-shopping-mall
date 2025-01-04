@@ -1,7 +1,7 @@
 import { Inject, Service } from 'typedi';
 import { Repository, DataSource } from 'typeorm';
 import { Product } from '@/entities/Product.entity';
-import { CreateProductDto, UpdateProductDto } from '@/types/product.types';
+import { CreateProductDto } from '@/types/product.types';
 
 @Service()
 export class ProductRepository {
@@ -11,28 +11,29 @@ export class ProductRepository {
     this.repository = dataSource.getRepository(Product);
   }
 
-  async findAll(): Promise<Product[]> {
-    return this.repository.find({ relations: ['category'] });
+  async findAll(category?: string): Promise<Product[]> {
+    return this.repository
+      .createQueryBuilder('p')
+      .leftJoinAndSelect('p.category', 'c')
+      .where('p.deletedAt IS NULL')
+      .andWhere(category ? 'c.code = :category' : '1=1', { category })
+      .getMany();
+  }
+
+  async findNew(): Promise<Product[]> {
+    return this.repository.createQueryBuilder('p').leftJoinAndSelect('p.category', 'c').where('p.isNew = :isNew', { isNew: true }).andWhere('p.deletedAt IS NULL').getMany();
+  }
+
+  async findBest(): Promise<Product[]> {
+    return this.repository.createQueryBuilder('p').leftJoinAndSelect('p.category', 'c').where('p.isBest = :isBest', { isBest: true }).andWhere('p.deletedAt IS NULL').getMany();
   }
 
   async findById(id: number): Promise<Product | null> {
-    return this.repository.findOne({
-      where: { id },
-      relations: ['category'],
-    });
+    return this.repository.createQueryBuilder('p').leftJoinAndSelect('p.category', 'c').where('p.id = :id', { id }).andWhere('p.deletedAt IS NULL').getOne();
   }
 
   async create(data: CreateProductDto): Promise<Product> {
     const product = this.repository.create(data);
     return this.repository.save(product);
-  }
-
-  async update(id: number, data: UpdateProductDto): Promise<Product | null> {
-    await this.repository.update(id, data);
-    return this.findById(id);
-  }
-
-  async delete(id: number): Promise<void> {
-    await this.repository.softDelete(id);
   }
 }

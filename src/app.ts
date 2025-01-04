@@ -29,7 +29,7 @@ AppDataSource.initialize()
     Container.set(DataSource, AppDataSource);
 
     // 라우터 설정
-    app.use('/products', productRouter);
+    app.use('/api/products', productRouter);
 
     // 에러 핸들링 미들웨어
     app.use(errorHandler);
