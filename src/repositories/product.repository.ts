@@ -2,9 +2,10 @@ import { Inject, Service } from 'typedi';
 import { Repository, DataSource } from 'typeorm';
 import { Product } from '@/entities/Product.entity';
 import { TCreateProductDto } from '@/validators/product.validator';
+import { IProductRepository } from '@/interfaces/product.interface';
 
 @Service()
-export class ProductRepository {
+export class ProductRepository implements IProductRepository {
   private repository: Repository<Product>;
 
   constructor(@Inject() private dataSource: DataSource) {

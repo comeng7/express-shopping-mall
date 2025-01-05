@@ -5,9 +5,10 @@ import { ProductError, DatabaseError } from '@/errors';
 import { Product } from '@/entities/Product.entity';
 import { TProductListResponse, TProductResponse } from '@/types/product.types';
 import { createProductSchema, TCreateProductDto } from '@/validators/product.validator';
+import { IProductService } from '@/interfaces/product.interface';
 
 @Service()
-export class ProductService {
+export class ProductService implements IProductService {
   constructor(@Inject() private productRepository: ProductRepository) {}
 
   private getFilteredProduct(product: Product) {

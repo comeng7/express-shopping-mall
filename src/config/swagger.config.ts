@@ -7,7 +7,7 @@ export const swaggerOptions = {
     info: {
       title: '쇼핑몰 API',
       version: '1.0.0',
-      description: '쇼핑몰 백엔드 API 문서',
+      description: '쇼핑몰 API 문서',
     },
     components: {
       schemas: {
@@ -37,7 +37,7 @@ export const swaggerOptions = {
               example: 'https://example.com/image.jpg',
             },
             categoryCode: {
-              $ref: '#/components/schemas/CategoryCode',
+              allOf: [{ $ref: '#/components/schemas/CategoryCode' }, { description: '상품 카테고리' }],
             },
             description: {
               type: 'string',
@@ -61,43 +61,63 @@ export const swaggerOptions = {
             },
           },
         },
+        ProductListResponse: {
+          type: 'object',
+          required: ['data'],
+          properties: {
+            data: {
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/ProductResponse',
+              },
+            },
+          },
+        },
         ProductResponse: {
           type: 'object',
+          required: ['id', 'name', 'price', 'imageUrl', 'category', 'isNew', 'isBest'],
           properties: {
             id: {
               type: 'number',
+              description: '상품 고유 ID',
               example: 1,
             },
             name: {
               type: 'string',
+              description: '상품명',
               example: '트윈 백',
             },
             price: {
               type: 'number',
+              description: '가격',
               example: 150000,
             },
             imageUrl: {
               type: 'string',
+              description: '상품 이미지 URL',
               example: 'https://example.com/image.jpg',
             },
-            categoryName: {
-              type: 'string',
-              example: 'TWIN BAG',
+            category: {
+              allOf: [{ $ref: '#/components/schemas/CategoryCode' }, { description: '상품 카테고리' }],
             },
             isNew: {
               type: 'boolean',
+              description: '신상품 여부',
               example: true,
             },
             isBest: {
               type: 'boolean',
+              description: '베스트상품 여부',
               example: false,
             },
             color: {
               type: 'string',
+              description: '색상',
               example: 'Black',
             },
             description: {
               type: 'string',
+              description: '상품 설명',
               example: '편안한 착용감의 트윈 백입니다.',
             },
           },
@@ -116,6 +136,18 @@ export const swaggerOptions = {
             message: {
               type: 'string',
               example: '유효하지 않은 입력입니다.',
+            },
+          },
+        },
+      },
+      responses: {
+        Error: {
+          description: '에러 응답',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Error',
+              },
             },
           },
         },
