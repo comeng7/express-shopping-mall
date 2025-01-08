@@ -8,6 +8,7 @@ import { errorHandler } from '@/middlewares/error.middleware';
 import swaggerUi from 'swagger-ui-express';
 import { specs } from '@/config/swagger.config';
 import productRouter from '@/routes/product.routes';
+import userRouter from '@/routes/user.routes';
 import { AppDataSource } from '@/config/typeorm.config';
 import { logger } from '@/config/logger.config';
 
@@ -30,6 +31,7 @@ AppDataSource.initialize()
 
     // 라우터 설정
     app.use('/api/products', productRouter);
+    app.use('/api/users', userRouter);
 
     // 에러 핸들링 미들웨어
     app.use(errorHandler);
