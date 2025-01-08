@@ -639,3 +639,15 @@
 {"ip":"::1","level":"info","message":"GET /api-docs/swagger-ui-init.js","timestamp":"2025-01-08T09:12:15.243Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
 {"ip":"::1","level":"info","message":"GET /api-docs/swagger-ui-standalone-preset.js","timestamp":"2025-01-08T09:12:15.244Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
 {"ip":"::1","level":"info","message":"GET /api-docs/favicon-32x32.png","timestamp":"2025-01-08T09:12:15.317Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+{"level":"info","message":"Server is running on port 3000","timestamp":"2025-01-08T09:13:54.145Z"}
+{"level":"info","message":"Swagger documentation available at http://localhost:3000/api-docs","timestamp":"2025-01-08T09:13:54.146Z"}
+{"ip":"::1","level":"info","message":"GET /api-docs/","timestamp":"2025-01-08T09:14:21.904Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+{"ip":"::1","level":"info","message":"GET /api-docs/swagger-ui-standalone-preset.js","timestamp":"2025-01-08T09:14:22.022Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+{"ip":"::1","level":"info","message":"GET /api-docs/swagger-ui.css","timestamp":"2025-01-08T09:14:22.026Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+{"ip":"::1","level":"info","message":"GET /api-docs/swagger-ui-bundle.js","timestamp":"2025-01-08T09:14:22.027Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+{"ip":"::1","level":"info","message":"GET /api-docs/swagger-ui-init.js","timestamp":"2025-01-08T09:14:22.030Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+{"ip":"::1","level":"info","message":"GET /api-docs/favicon-32x32.png","timestamp":"2025-01-08T09:14:22.163Z","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
+{"level":"info","message":"Server is running on port 3000","timestamp":"2025-01-08T09:53:15.233Z"}
+{"level":"info","message":"Swagger documentation available at http://localhost:3000/api-docs","timestamp":"2025-01-08T09:53:15.234Z"}
+{"level":"info","message":"Server is running on port 3000","timestamp":"2025-01-08T09:53:27.192Z"}
+{"level":"info","message":"Swagger documentation available at http://localhost:3000/api-docs","timestamp":"2025-01-08T09:53:27.193Z"}
