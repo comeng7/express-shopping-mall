@@ -12,7 +12,17 @@ export const commonMiddleware = [
     credentials: true,
   }),
   helmet({
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: false,
     crossOriginOpenerPolicy: false,
-    contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false,
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        connectSrc: ["'self'", 'https:', 'http:'],
+      },
+    },
   }),
 ];
