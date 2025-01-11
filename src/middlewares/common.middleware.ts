@@ -12,6 +12,7 @@ export const commonMiddleware = [
     credentials: true,
   }),
   helmet({
+    crossOriginOpenerPolicy: false,
     contentSecurityPolicy: process.env.NODE_ENV === 'production' ? undefined : false,
   }),
 ];
