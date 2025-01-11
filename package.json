@@ -17,7 +17,7 @@
     "migration:run": "npm run typeorm migration:run",
     "migration:revert": "npm run typeorm migration:revert",
     "clean": "rm -rf node_modules && rm -rf package-lock.json && npm cache clean --force && npm install",
-    "pm2": "npm run build && pm2 delete shopping-mall && pm2 start 'env-cmd -f .env node dist/app.js' --name shopping-mall"
+    "pm2": "npm run build && pm2 delete shopping-mall && NODE_ENV=production pm2 start 'env-cmd -f .env node dist/app.js' --name shopping-mall"
   },
   "dependencies": {
     "@types/express": "^5.0.0",
