@@ -1,19 +1,20 @@
 import { Request, Response } from 'express';
 import { Service, Inject } from 'typedi';
-import { ProductService } from '@/services/product.service';
 import { ZodError } from 'zod';
-import { BaseError } from '@/errors';
+
 import { logger } from '@/config/logger.config';
-import { createProductSchema } from '@/validators/product.validator';
 import { CATEGORY_CODE } from '@/constants/category.constants';
-import { TCategoryCode } from '@/types/category.types';
+import { BaseError } from '@/errors';
 import { IProductController } from '@/interfaces/product.interface';
+import { ProductService } from '@/services/product.service';
+import { TCategoryCode } from '@/types/category.types';
+import { createProductSchema } from '@/validators/product.validator';
 
 @Service()
 export class ProductController implements IProductController {
   constructor(
     @Inject()
-    private readonly productService: ProductService
+    private readonly productService: ProductService,
   ) {}
 
   /**

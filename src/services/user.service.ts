@@ -1,8 +1,9 @@
-import { Inject, Service } from 'typedi';
-import { UserRepository } from '@/repositories/user.repository';
-import { BaseError } from '@/errors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { Inject, Service } from 'typedi';
+
+import { BaseError } from '@/errors';
+import { UserRepository } from '@/repositories/user.repository';
 
 @Service()
 export class UserService {
@@ -11,7 +12,14 @@ export class UserService {
   /**
    * 회원가입
    */
-  async createUser(params: { name: string; email: string; postCode?: string; address?: string; password: string; userId: string }) {
+  async createUser(params: {
+    name: string;
+    email: string;
+    postCode?: string;
+    address?: string;
+    password: string;
+    userId: string;
+  }) {
     const existingUser = await this.userRepository.findByEmail(params.email);
     if (existingUser) {
       throw new BaseError(409, '이미 존재하는 이메일입니다.', 'USER_ALREADY_EXISTS');
@@ -61,7 +69,7 @@ export class UserService {
     const token = jwt.sign(
       { userId: user.id },
       process.env.JWT_SECRET || 'secret', // 환경변수로 대체 필요
-      { expiresIn: '1h' }
+      { expiresIn: '1h' },
     );
 
     return { token };

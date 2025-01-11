@@ -1,5 +1,5 @@
-import winston from 'winston';
 import { Format } from 'logform';
+import winston from 'winston';
 
 const formats: Format = winston.format.combine(winston.format.timestamp(), winston.format.json());
 

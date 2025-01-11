@@ -1,8 +1,9 @@
 import { Inject, Service } from 'typedi';
 import { Repository, DataSource } from 'typeorm';
+
 import { Product } from '@/entities/Product.entity';
-import { TCreateProductDto } from '@/validators/product.validator';
 import { IProductRepository } from '@/interfaces/product.interface';
+import { TCreateProductDto } from '@/validators/product.validator';
 
 @Service()
 export class ProductRepository implements IProductRepository {
@@ -22,15 +23,30 @@ export class ProductRepository implements IProductRepository {
   }
 
   async findNew(): Promise<Product[]> {
-    return this.repository.createQueryBuilder('p').leftJoinAndSelect('p.category', 'c').where('p.isNew = :isNew', { isNew: true }).andWhere('p.deletedAt IS NULL').getMany();
+    return this.repository
+      .createQueryBuilder('p')
+      .leftJoinAndSelect('p.category', 'c')
+      .where('p.isNew = :isNew', { isNew: true })
+      .andWhere('p.deletedAt IS NULL')
+      .getMany();
   }
 
   async findBest(): Promise<Product[]> {
-    return this.repository.createQueryBuilder('p').leftJoinAndSelect('p.category', 'c').where('p.isBest = :isBest', { isBest: true }).andWhere('p.deletedAt IS NULL').getMany();
+    return this.repository
+      .createQueryBuilder('p')
+      .leftJoinAndSelect('p.category', 'c')
+      .where('p.isBest = :isBest', { isBest: true })
+      .andWhere('p.deletedAt IS NULL')
+      .getMany();
   }
 
   async findById(id: number): Promise<Product | null> {
-    return this.repository.createQueryBuilder('p').leftJoinAndSelect('p.category', 'c').where('p.id = :id', { id }).andWhere('p.deletedAt IS NULL').getOne();
+    return this.repository
+      .createQueryBuilder('p')
+      .leftJoinAndSelect('p.category', 'c')
+      .where('p.id = :id', { id })
+      .andWhere('p.deletedAt IS NULL')
+      .getOne();
   }
 
   async create(data: TCreateProductDto): Promise<Product> {

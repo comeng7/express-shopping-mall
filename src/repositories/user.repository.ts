@@ -41,15 +41,15 @@ export class UserRepository {
   private users: UserEntity[] = usersMockData;
 
   async findByEmail(email: string): Promise<UserEntity | undefined> {
-    return this.users.find((user) => user.email === email);
+    return this.users.find(user => user.email === email);
   }
 
   async findByUserId(userId: string): Promise<UserEntity | undefined> {
-    return this.users.find((user) => user.userId === userId);
+    return this.users.find(user => user.userId === userId);
   }
 
   async findById(id: number): Promise<UserEntity | undefined> {
-    return this.users.find((user) => user.id === id);
+    return this.users.find(user => user.id === id);
   }
 
   async createUser(userData: Omit<UserEntity, 'id' | 'createdAt'>): Promise<UserEntity> {

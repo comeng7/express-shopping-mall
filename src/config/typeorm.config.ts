@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
-import { Product } from '@/entities/Product.entity';
+
 import { Category } from '@/entities/Category.entity';
+import { Product } from '@/entities/Product.entity';
 
 export const AppDataSource = new DataSource({
   type: 'mysql',

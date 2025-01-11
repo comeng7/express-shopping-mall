@@ -1,7 +1,8 @@
+import { Request, Response } from 'express';
+
 import { Product } from '@/entities/Product.entity';
 import { TProductListResponse, TProductResponse } from '@/types/product.types';
 import { TCreateProductDto } from '@/validators/product.validator';
-import { Request, Response } from 'express';
 
 export interface IProductRepository {
   findAll(category?: string): Promise<Product[]>;

@@ -1,11 +1,12 @@
 import { Inject, Service } from 'typedi';
-import { ProductRepository } from '@/repositories/product.repository';
+
 import { logger } from '@/config/logger.config';
-import { ProductError, DatabaseError } from '@/errors';
 import { Product } from '@/entities/Product.entity';
+import { ProductError, DatabaseError } from '@/errors';
+import { IProductService } from '@/interfaces/product.interface';
+import { ProductRepository } from '@/repositories/product.repository';
 import { TProductListResponse, TProductResponse } from '@/types/product.types';
 import { createProductSchema, TCreateProductDto } from '@/validators/product.validator';
-import { IProductService } from '@/interfaces/product.interface';
 
 @Service()
 export class ProductService implements IProductService {

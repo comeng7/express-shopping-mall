@@ -1,16 +1,17 @@
 import 'reflect-metadata';
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
+import swaggerUi from 'swagger-ui-express';
 import { Container } from 'typedi';
 import { DataSource } from 'typeorm';
-import { commonMiddleware } from '@/middlewares/common.middleware';
-import { requestLogger } from '@/middlewares/logger.middleware';
-import { errorHandler } from '@/middlewares/error.middleware';
-import swaggerUi from 'swagger-ui-express';
+
+import { logger } from '@/config/logger.config';
 import { specs } from '@/config/swagger.config';
+import { AppDataSource } from '@/config/typeorm.config';
+import { commonMiddleware } from '@/middlewares/common.middleware';
+import { errorHandler } from '@/middlewares/error.middleware';
+import { requestLogger } from '@/middlewares/logger.middleware';
 import productRouter from '@/routes/product.routes';
 import userRouter from '@/routes/user.routes';
-import { AppDataSource } from '@/config/typeorm.config';
-import { logger } from '@/config/logger.config';
 
 const app = express();
 
@@ -21,7 +22,17 @@ app.use(commonMiddleware);
 app.use(requestLogger);
 
 // Swagger
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use(
+  '/api-docs',
+  (req: Request, res: Response, next: NextFunction) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Cross-Origin-Opener-Policy', 'same-origin');
+    res.header('Cross-Origin-Embedder-Policy', 'unsafe-none');
+    next();
+  },
+  swaggerUi.serve,
+  swaggerUi.setup(specs),
+);
 
 // DB 연결 및 서버 시작
 AppDataSource.initialize()

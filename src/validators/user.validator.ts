@@ -15,7 +15,7 @@ export const createUserSchema = z
     confirmPassword: z.string(),
     userId: z.string().min(2, '아이디는 최소 2자 이상이어야 합니다.'),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine(data => data.password === data.confirmPassword, {
     message: '비밀번호가 일치하지 않습니다.',
     path: ['confirmPassword'],
   });

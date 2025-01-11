@@ -1,6 +1,7 @@
 import request from 'supertest';
-import app from '@/app';
 import { Container } from 'typedi';
+
+import app from '@/app';
 import { ProductService } from '@/services/product.service';
 
 describe('Product API', () => {

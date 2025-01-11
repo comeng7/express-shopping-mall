@@ -1,10 +1,11 @@
 // src/controllers/user.controller.ts
 import { Request, Response } from 'express';
 import { Service, Inject } from 'typedi';
-import { UserService } from '@/services/user.service';
 import { ZodError } from 'zod';
-import { BaseError } from '@/errors';
+
 import { logger } from '@/config/logger.config';
+import { BaseError } from '@/errors';
+import { UserService } from '@/services/user.service';
 import { createUserSchema, loginSchema } from '@/validators/user.validator';
 
 @Service()
