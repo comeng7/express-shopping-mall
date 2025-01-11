@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
-
-import { Category } from '@/entities/Category.entity';
+import { Container } from 'typedi';
 import { Product } from '@/entities/Product.entity';
+import { Category } from '@/entities/Category.entity';
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
@@ -14,3 +14,5 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   logging: true,
 });
+
+Container.set(DataSource, AppDataSource);

@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Shopping mall API server",
   "main": "src/app.ts",
-  "type": "module",
   "private": true,
   "scripts": {
     "start": "env-cmd -f .env node ./dist/app.js",
