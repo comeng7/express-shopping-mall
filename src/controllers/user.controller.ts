@@ -138,9 +138,7 @@ export class UserController {
    *         content:
    *           application/json:
    *             schema:
-   *               type: object
-   *               properties:
-   *                 $ref: '#/components/schemas/UserResponse'
+   *               $ref: '#/components/schemas/UserResponse'
    *       401:
    *         $ref: '#/components/responses/Error'
    */

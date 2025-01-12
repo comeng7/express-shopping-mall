@@ -216,13 +216,8 @@ export const swaggerOptions = {
         },
         UserResponse: {
           type: 'object',
-          required: ['id', 'name', 'email', 'userId'],
+          required: ['name', 'email', 'userId'],
           properties: {
-            id: {
-              type: 'number',
-              description: '유저 고유 ID',
-              example: 1,
-            },
             name: {
               type: 'string',
               description: '사용자 이름',
