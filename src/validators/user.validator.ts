@@ -4,6 +4,7 @@ export const createUserSchema = z
   .object({
     name: z.string().min(2, '이름은 최소 2자 이상이어야 합니다.'),
     email: z.string().email(),
+    phoneNumber: z.string().length(11, '전화번호는 11자 이어야 합니다.'),
     postCode: z.string().length(5, '우편번호는 5자리여야 합니다.').optional(),
     address: z.string().optional(),
     password: z

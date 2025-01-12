@@ -38,6 +38,7 @@ export class UserService {
       name: data.name,
       email: data.email,
       postCode: data.postCode,
+      phoneNumber: data.phoneNumber,
       address: data.address,
       password: hashedPassword,
       userId: data.userId,
@@ -46,6 +47,7 @@ export class UserService {
     return {
       name: newUser.name,
       email: newUser.email,
+      phoneNumber: data.phoneNumber,
       postCode: newUser.postCode,
       address: newUser.address,
       userId: newUser.userId,
@@ -92,6 +94,7 @@ export class UserService {
       id: user.id,
       name: user.name,
       email: user.email,
+      phoneNumber: user.phoneNumber,
       postCode: user.postCode,
       address: user.address,
       userId: user.userId,

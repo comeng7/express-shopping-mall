@@ -233,6 +233,11 @@ export const swaggerOptions = {
               description: '로그인용 아이디',
               example: 'hong123',
             },
+            phoneNumber: {
+              type: 'string',
+              description: '전화번호',
+              example: '01012345678',
+            },
             postCode: {
               type: 'string',
               description: '우편번호',
