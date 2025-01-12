@@ -35,7 +35,7 @@ export class UserController {
    *       400:
    *         $ref: '#/components/responses/Error'
    */
-  async createUser(req: Request, res: Response): Promise<Response> {
+  async createUser(req: Request, res: Response) {
     try {
       const validatedData = createUserSchema.parse(req.body);
       const newUser = await this.userService.createUser(validatedData);
@@ -69,7 +69,7 @@ export class UserController {
    * /api/users/login:
    *   post:
    *     summary: 로그인
-   *     description: 이메일과 비밀번호로 로그인합니다.
+   *     description: 아이디와 비밀번호로 로그인합니다.
    *     tags: [유저]
    *     requestBody:
    *       required: true
@@ -88,14 +88,17 @@ export class UserController {
    *                 token:
    *                   type: string
    *                   description: JWT 토큰
-   *                   example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+   *                  example: 'eyJhbGciOiJ.IUzI1NiIsI.nR5cCI6I'
    *       400:
    *         $ref: '#/components/responses/Error'
    */
-  async login(req: Request, res: Response): Promise<Response> {
+  async login(req: Request, res: Response) {
     try {
       const validatedData = loginSchema.parse(req.body);
-      const tokenData = await this.userService.login(validatedData.email, validatedData.password);
+      const tokenData = await this.userService.login({
+        userId: validatedData.userId,
+        password: validatedData.password,
+      });
       return res.json(tokenData);
     } catch (error: unknown) {
       if (error instanceof ZodError) {
@@ -135,22 +138,38 @@ export class UserController {
    *         content:
    *           application/json:
    *             schema:
-   *               $ref: '#/components/schemas/UserResponse'
+   *               type: object
+   *               properties:
+   *                 status:
+   *                   type: string
+   *                 data:
+   *                   $ref: '#/components/schemas/UserResponse'
    *       401:
    *         $ref: '#/components/responses/Error'
    */
-  async getUserMe(req: Request, res: Response): Promise<Response> {
+  async getUserMe(req: Request, res: Response) {
     try {
-      // if (!req.user) {
-      //   return res.status(401).json({
-      //     status: 'error',
-      //     code: 'UNAUTHORIZED',
-      //     message: '로그인이 필요합니다.',
-      //   });
-      // }
+      // auth 미들웨어에서 할당한 req.user
+      if (!req.user) {
+        return res.status(401).json({
+          status: 'error',
+          code: 'UNAUTHORIZED',
+          message: '로그인이 필요합니다.',
+        });
+      }
 
-      const userId = 1;
-      const userData = await this.userService.getUserById(userId);
+      const userId = req.user.id;
+
+      // DB에서 유저 정보 검색
+      const userData = await this.userService.getUserByUserId(userId);
+      if (!userData) {
+        return res.status(404).json({
+          status: 'error',
+          code: 'UNAUTHORIZED',
+          message: '유저를 찾을 수 없습니다.',
+        });
+      }
+
       return res.json(userData);
     } catch (error: unknown) {
       if (error instanceof BaseError) {

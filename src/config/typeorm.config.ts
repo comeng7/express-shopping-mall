@@ -1,7 +1,8 @@
-import { DataSource } from 'typeorm';
 import { Container } from 'typedi';
-import { Product } from '@/entities/Product.entity';
+import { DataSource } from 'typeorm';
+
 import { Category } from '@/entities/Category.entity';
+import { Product } from '@/entities/Product.entity';
 
 export const AppDataSource = new DataSource({
   type: 'mysql',

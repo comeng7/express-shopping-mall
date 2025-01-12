@@ -13,7 +13,7 @@ export class ProductRepository implements IProductRepository {
     this.repository = dataSource.getRepository(Product);
   }
 
-  async findAll(category?: string): Promise<Product[]> {
+  async findAll(category?: string) {
     return this.repository
       .createQueryBuilder('p')
       .leftJoinAndSelect('p.category', 'c')
@@ -22,7 +22,7 @@ export class ProductRepository implements IProductRepository {
       .getMany();
   }
 
-  async findNew(): Promise<Product[]> {
+  async findNew() {
     return this.repository
       .createQueryBuilder('p')
       .leftJoinAndSelect('p.category', 'c')
@@ -31,7 +31,7 @@ export class ProductRepository implements IProductRepository {
       .getMany();
   }
 
-  async findBest(): Promise<Product[]> {
+  async findBest() {
     return this.repository
       .createQueryBuilder('p')
       .leftJoinAndSelect('p.category', 'c')
@@ -40,7 +40,7 @@ export class ProductRepository implements IProductRepository {
       .getMany();
   }
 
-  async findById(id: number): Promise<Product | null> {
+  async findById(id: number) {
     return this.repository
       .createQueryBuilder('p')
       .leftJoinAndSelect('p.category', 'c')
@@ -49,7 +49,7 @@ export class ProductRepository implements IProductRepository {
       .getOne();
   }
 
-  async create(data: TCreateProductDto): Promise<Product> {
+  async create(data: TCreateProductDto) {
     const product = this.repository.create(data);
     return this.repository.save(product);
   }

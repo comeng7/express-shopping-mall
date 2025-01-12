@@ -43,7 +43,10 @@ export class ProductController implements IProductController {
   async getProducts(req: Request, res: Response) {
     try {
       const categoryCode = req.query.categoryCode as TCategoryCode;
-      if (categoryCode && !Object.values(CATEGORY_CODE).includes(categoryCode)) {
+      if (
+        categoryCode &&
+        !Object.values(CATEGORY_CODE).includes(categoryCode)
+      ) {
         res.status(400).json({
           status: 'error',
           code: 'INVALID_CATEGORY',

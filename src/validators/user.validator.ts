@@ -21,6 +21,9 @@ export const createUserSchema = z
   });
 
 export const loginSchema = z.object({
-  email: z.string().email({ message: '유효한 이메일 주소가 아닙니다.' }),
+  userId: z.string().min(2, '아이디는 최소 2자 이상이어야 합니다.'),
   password: z.string().min(8, { message: '비밀번호는 8자 이상이어야 합니다.' }),
 });
+
+export type TCreateUserDto = z.infer<typeof createUserSchema>;
+export type TLoginDto = z.infer<typeof loginSchema>;

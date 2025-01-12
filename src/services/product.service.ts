@@ -6,7 +6,10 @@ import { ProductError, DatabaseError } from '@/errors';
 import { IProductService } from '@/interfaces/product.interface';
 import { ProductRepository } from '@/repositories/product.repository';
 import { TProductListResponse, TProductResponse } from '@/types/product.types';
-import { createProductSchema, TCreateProductDto } from '@/validators/product.validator';
+import {
+  createProductSchema,
+  TCreateProductDto,
+} from '@/validators/product.validator';
 
 @Service()
 export class ProductService implements IProductService {

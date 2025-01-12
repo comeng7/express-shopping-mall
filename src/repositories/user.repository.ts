@@ -1,65 +1,47 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
+import { Repository, DataSource } from 'typeorm';
 
-interface UserEntity {
-  id: number;
-  name: string;
-  email: string;
-  postCode?: string;
-  address?: string;
-  password: string;
-  userId: string;
-  createdAt: Date;
-}
-
-// 임시 목데이터
-const usersMockData: UserEntity[] = [
-  {
-    id: 1,
-    name: '홍길동',
-    email: 'hong@example.com',
-    postCode: '12345',
-    address: '서울시 강남구',
-    password: '$2b$10$abcdef...', // 해시된 비밀번호 예시
-    userId: 'hong123',
-    createdAt: new Date(),
-  },
-  {
-    id: 2,
-    name: '김철수',
-    email: 'kim@example.com',
-    postCode: '67890',
-    address: '부산시 해운대구',
-    password: '$2b$10$ghijkl...', // 해시된 비밀번호 예시
-    userId: 'kim456',
-    createdAt: new Date(),
-  },
-  // 추가 목데이터 필요 시 추가
-];
+import { User } from '@/entities/User.entity';
 
 @Service()
 export class UserRepository {
-  private users: UserEntity[] = usersMockData;
+  private repository: Repository<User>;
 
-  async findByEmail(email: string): Promise<UserEntity | undefined> {
-    return this.users.find(user => user.email === email);
+  constructor(@Inject() private dataSource: DataSource) {
+    this.repository = dataSource.getRepository(User);
   }
 
-  async findByUserId(userId: string): Promise<UserEntity | undefined> {
-    return this.users.find(user => user.userId === userId);
+  /**
+   * 이메일로 유저 찾기
+   * @param email - 유저 이메일
+   * @returns User | null
+   */
+  async findByEmail(email: string) {
+    return this.repository
+      .createQueryBuilder('u')
+      .where('u.email = :email', { email })
+      .getOne();
   }
 
-  async findById(id: number): Promise<UserEntity | undefined> {
-    return this.users.find(user => user.id === id);
+  /**
+   * 유저 ID로 유저 찾기
+   * @param userId - 유저 ID
+   * @returns User | null
+   */
+  async findByUserId(userId: string) {
+    return this.repository
+      .createQueryBuilder('u')
+      .where('u.userId = :userId', { userId })
+      .getOne();
   }
 
-  async createUser(userData: Omit<UserEntity, 'id' | 'createdAt'>): Promise<UserEntity> {
-    const newId = this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
-    const newUser: UserEntity = {
-      id: newId,
-      createdAt: new Date(),
-      ...userData,
-    };
-    this.users.push(newUser);
-    return newUser;
+  /**
+   * 유저 생성
+   * @param userData - 유저 생성 데이터 (createdAt 제외)
+   * @returns User
+   */
+  async createUser(userData: Omit<User, 'id' | 'createdAt'>) {
+    const user = this.repository.create(userData);
+    return this.repository.save(user);
   }
 }

@@ -31,7 +31,10 @@ describe('Product API', () => {
         color: 'Red',
       };
 
-      const response = await request(app).post('/products').send(productData).expect(201);
+      const response = await request(app)
+        .post('/products')
+        .send(productData)
+        .expect(201);
 
       expect(response.body).toHaveProperty('id');
       expect(response.body.name).toBe(productData.name);

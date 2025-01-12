@@ -4,8 +4,13 @@ import { ZodError } from 'zod';
 import { logger } from '@/config/logger.config';
 import { BaseError } from '@/errors';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const errorHandler = (error: Error, req: Request, res: Response, next: NextFunction) => {
+export const errorHandler = (
+  error: Error,
+  req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  next: NextFunction,
+) => {
   if (error instanceof ZodError) {
     res.status(400).json({
       status: 'error',

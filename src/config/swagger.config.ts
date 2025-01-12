@@ -2,7 +2,10 @@ import swaggerJsdoc from 'swagger-jsdoc';
 
 import { CATEGORY_CODE } from '@/constants/category.constants';
 
-const swaggerPath = process.env.NODE_ENV === 'production' ? './dist/controllers/*.js' : './src/controllers/*.ts';
+const swaggerPath =
+  process.env.NODE_ENV === 'production'
+    ? './dist/controllers/*.js'
+    : './src/controllers/*.ts';
 
 export const swaggerOptions = {
   definition: {
@@ -18,7 +21,8 @@ export const swaggerOptions = {
           process.env.NODE_ENV === 'production'
             ? `http://${process.env.EC2_PUBLIC_IP}`
             : `http://localhost:${process.env.PORT || 3000}`,
-        description: process.env.NODE_ENV === 'production' ? '운영 서버' : '개발 서버',
+        description:
+          process.env.NODE_ENV === 'production' ? '운영 서버' : '개발 서버',
       },
     ],
     components: {
@@ -49,7 +53,10 @@ export const swaggerOptions = {
               example: 'https://example.com/image.jpg',
             },
             categoryCode: {
-              allOf: [{ $ref: '#/components/schemas/CategoryCode' }, { description: '상품 카테고리' }],
+              allOf: [
+                { $ref: '#/components/schemas/CategoryCode' },
+                { description: '상품 카테고리' },
+              ],
             },
             description: {
               type: 'string',
@@ -87,7 +94,15 @@ export const swaggerOptions = {
         },
         ProductResponse: {
           type: 'object',
-          required: ['id', 'name', 'price', 'imageUrl', 'category', 'isNew', 'isBest'],
+          required: [
+            'id',
+            'name',
+            'price',
+            'imageUrl',
+            'category',
+            'isNew',
+            'isBest',
+          ],
           properties: {
             id: {
               type: 'number',
@@ -110,7 +125,10 @@ export const swaggerOptions = {
               example: 'https://example.com/image.jpg',
             },
             category: {
-              allOf: [{ $ref: '#/components/schemas/CategoryCode' }, { description: '상품 카테고리' }],
+              allOf: [
+                { $ref: '#/components/schemas/CategoryCode' },
+                { description: '상품 카테고리' },
+              ],
             },
             isNew: {
               type: 'boolean',
@@ -171,19 +189,18 @@ export const swaggerOptions = {
             },
             userId: {
               type: 'string',
-              description: '로그인 용 아이디',
+              description: '로그인용 아이디',
               example: 'hong123',
             },
           },
         },
         LoginDto: {
           type: 'object',
-          required: ['email', 'password'],
+          required: ['userId', 'password'],
           properties: {
-            email: {
+            userId: {
               type: 'string',
-              format: 'email',
-              example: 'hong@example.com',
+              example: 'hong123',
             },
             password: {
               type: 'string',
@@ -213,7 +230,7 @@ export const swaggerOptions = {
             },
             userId: {
               type: 'string',
-              description: '로그인 용 아이디',
+              description: '로그인용 아이디',
               example: 'hong123',
             },
             postCode: {
@@ -261,6 +278,13 @@ export const swaggerOptions = {
               },
             },
           },
+        },
+      },
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
         },
       },
     },

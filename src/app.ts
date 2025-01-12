@@ -59,7 +59,9 @@ AppDataSource.initialize()
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
       logger.info(`Server is running on port ${PORT}`);
-      logger.info(`Swagger documentation available at http://localhost:${PORT}/api-docs`);
+      logger.info(
+        `Swagger documentation available at http://localhost:${PORT}/api-docs`,
+      );
     });
   })
   .catch((error: unknown) => {
