@@ -140,10 +140,7 @@ export class UserController {
    *             schema:
    *               type: object
    *               properties:
-   *                 status:
-   *                   type: string
-   *                 data:
-   *                   $ref: '#/components/schemas/UserResponse'
+   *                 $ref: '#/components/schemas/UserResponse'
    *       401:
    *         $ref: '#/components/responses/Error'
    */
