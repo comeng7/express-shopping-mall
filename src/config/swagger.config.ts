@@ -167,6 +167,11 @@ export const swaggerOptions = {
               description: '이메일 주소',
               example: 'hong@example.com',
             },
+            phoneNumber: {
+              type: 'string',
+              description: '전화번호',
+              example: '01012345678',
+            },
             postCode: {
               type: 'string',
               description: '우편번호 (선택사항)',
