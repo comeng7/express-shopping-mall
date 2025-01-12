@@ -88,7 +88,7 @@ export class UserController {
    *                 token:
    *                   type: string
    *                   description: JWT 토큰
-   *                  example: 'eyJhbGciOiJ.IUzI1NiIsI.nR5cCI6I'
+   *                   example: 'eyJhbGciOiJ.IUzI1NiIsI.nR5cCI6I'
    *       400:
    *         $ref: '#/components/responses/Error'
    */
@@ -150,15 +150,15 @@ export class UserController {
   async getUserMe(req: Request, res: Response) {
     try {
       // auth 미들웨어에서 할당한 req.user
-      if (!req.user) {
+      const userId = req.user?.userId;
+
+      if (!userId) {
         return res.status(401).json({
           status: 'error',
           code: 'UNAUTHORIZED',
           message: '로그인이 필요합니다.',
         });
       }
-
-      const userId = req.user.id;
 
       // DB에서 유저 정보 검색
       const userData = await this.userService.getUserByUserId(userId);

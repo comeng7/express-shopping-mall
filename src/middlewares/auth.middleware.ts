@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 export interface DecodedToken {
-  id: number;
+  userId: string;
   email: string;
 }
 
