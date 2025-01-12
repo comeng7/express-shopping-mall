@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 
 export interface DecodedToken {
   userId: string;
-  email: string;
 }
 
 export const authMiddleware = (

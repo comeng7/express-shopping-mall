@@ -2,6 +2,7 @@ import { Inject, Service } from 'typedi';
 import { Repository, DataSource } from 'typeorm';
 
 import { User } from '@/entities/User.entity';
+import { TCreateUserDto } from '@/validators/user.validator';
 
 @Service()
 export class UserRepository {
@@ -37,10 +38,10 @@ export class UserRepository {
 
   /**
    * 유저 생성
-   * @param userData - 유저 생성 데이터 (createdAt 제외)
+   * @param TCreateUserDto - 유저 생성 데이터
    * @returns User
    */
-  async createUser(userData: Omit<User, 'id' | 'createdAt'>) {
+  async createUser(userData: Omit<TCreateUserDto, 'confirmPassword'>) {
     const user = this.repository.create(userData);
     return this.repository.save(user);
   }

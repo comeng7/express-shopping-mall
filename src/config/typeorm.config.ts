@@ -3,6 +3,7 @@ import { DataSource } from 'typeorm';
 
 import { Category } from '@/entities/Category.entity';
 import { Product } from '@/entities/Product.entity';
+import { User } from '@/entities/User.entity';
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
@@ -11,7 +12,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [Product, Category],
+  entities: [Product, Category, User],
   synchronize: false,
   logging: true,
 });

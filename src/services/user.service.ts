@@ -37,8 +37,8 @@ export class UserService {
     const newUser = await this.userRepository.createUser({
       name: data.name,
       email: data.email,
-      postCode: data.postCode || null,
-      address: data.address || null,
+      postCode: data.postCode,
+      address: data.address,
       password: hashedPassword,
       userId: data.userId,
     });
@@ -61,7 +61,7 @@ export class UserService {
       throw new BaseError(404, '존재하지 않는 유저입니다.', 'USER_NOT_FOUND');
     }
 
-    const isPasswordValid = await bcrypt.compare(data.userId, user.password);
+    const isPasswordValid = await bcrypt.compare(data.password, user.password);
     if (!isPasswordValid) {
       throw new BaseError(
         400,
