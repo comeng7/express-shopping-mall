@@ -12,7 +12,7 @@ export const authMiddleware = (
 ) => {
   try {
     const authorizationHeader = req.header('Authorization');
-    if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
+    if (!authorizationHeader?.startsWith('Bearer ')) {
       res.status(401).json({
         status: 'error',
         code: 'NO_TOKEN',
@@ -25,7 +25,7 @@ export const authMiddleware = (
     // 헤더에서 Bearer 제거
     const token = authorizationHeader.replace('Bearer ', '');
 
-    const secretKey = process.env.JWT_SECRET || 'secret';
+    const secretKey = process.env.JWT_SECRET ?? 'secret';
     const decoded = jwt.verify(token, secretKey) as DecodedToken;
 
     // 디코딩 결과를 req.user 로 저장
