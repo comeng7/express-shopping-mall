@@ -34,7 +34,17 @@ export const swaggerOptions = {
         },
         CreateProductDto: {
           type: 'object',
-          required: ['name', 'price', 'imageUrl', 'categoryCode', 'color'],
+          required: [
+            'name',
+            'price',
+            'imageUrl',
+            'width',
+            'height',
+            'strapSize',
+            'weight',
+            'categoryCode',
+            'color',
+          ],
           properties: {
             name: {
               type: 'string',
@@ -51,6 +61,26 @@ export const swaggerOptions = {
               format: 'url',
               description: '상품 이미지 URL',
               example: 'https://example.com/image.jpg',
+            },
+            width: {
+              type: 'number',
+              description: '가로 길이 (cm)',
+              example: 30,
+            },
+            height: {
+              type: 'number',
+              description: '세로 길이 (cm)',
+              example: 20,
+            },
+            strapSize: {
+              type: 'number',
+              description: '스트랩 길이 (cm)',
+              example: 100,
+            },
+            weight: {
+              type: 'number',
+              description: '무게 (g)',
+              example: 500,
             },
             categoryCode: {
               allOf: [
@@ -123,6 +153,26 @@ export const swaggerOptions = {
               type: 'string',
               description: '상품 이미지 URL',
               example: 'https://example.com/image.jpg',
+            },
+            width: {
+              type: 'number',
+              description: '가로 길이 (cm)',
+              example: 30,
+            },
+            height: {
+              type: 'number',
+              description: '세로 길이 (cm)',
+              example: 20,
+            },
+            strapSize: {
+              type: 'number',
+              description: '스트랩 길이 (cm)',
+              example: 100,
+            },
+            weight: {
+              type: 'number',
+              description: '무게 (g)',
+              example: 500,
             },
             category: {
               allOf: [

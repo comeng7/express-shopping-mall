@@ -31,6 +31,18 @@ export class Product {
   })
   imageUrl!: string;
 
+  @Column({ type: 'int' })
+  width!: number;
+
+  @Column({ type: 'int' })
+  height!: number;
+
+  @Column({ name: 'strap_size', type: 'int' })
+  strapSize!: number;
+
+  @Column({ type: 'int' })
+  weight!: number;
+
   @Column({ name: 'category_id', type: 'int' })
   @Index('idx_category')
   categoryId!: number;
