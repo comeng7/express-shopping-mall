@@ -26,8 +26,8 @@ export class ProductService implements IProductService {
       strapSize: product.strapSize,
       weight: product.weight,
       category: product.category.name,
-      isNew: product.isNew,
-      isBest: product.isBest,
+      isNew: Boolean(product.isNew),
+      isBest: Boolean(product.isBest),
       color: product.color,
       description: product.description,
     };
