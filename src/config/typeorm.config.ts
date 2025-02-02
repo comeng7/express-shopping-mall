@@ -1,6 +1,8 @@
 import { Container } from 'typedi';
 import { DataSource } from 'typeorm';
 
+import { Cart } from '@/entities/Cart.entity';
+import { CartItem } from '@/entities/CartItem.entity';
 import { Category } from '@/entities/Category.entity';
 import { Product } from '@/entities/Product.entity';
 import { User } from '@/entities/User.entity';
@@ -12,7 +14,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [Product, Category, User],
+  entities: [Product, Category, User, Cart, CartItem],
   synchronize: false,
   logging: true,
 });

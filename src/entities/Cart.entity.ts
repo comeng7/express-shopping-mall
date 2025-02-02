@@ -5,8 +5,10 @@ import {
   CreateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
+import { CartItem } from '@/entities/CartItem.entity';
 import { User } from '@/entities/User.entity';
 
 @Entity('carts')
@@ -25,6 +27,9 @@ export class Cart {
   createdAt!: Date;
 
   @OneToOne(() => User)
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'id' })
   user!: User;
+
+  @OneToMany(() => CartItem, cartItem => cartItem.cart)
+  cartItems?: CartItem[];
 }

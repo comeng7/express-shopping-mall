@@ -29,7 +29,7 @@ export class ProductController implements IProductController {
    *         name: categoryCode
    *         schema:
    *           $ref: '#/components/schemas/CategoryCode'
-   *         description: 카테고리 코드 (선택사항)
+   *         description: 카테고리 코드
    *     responses:
    *       200:
    *         description: 상품 목록 조회 성공

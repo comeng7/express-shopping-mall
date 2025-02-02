@@ -9,6 +9,7 @@ const swaggerPath =
     : './src/controllers/*.ts';
 
 export const swaggerOptions = {
+  persistAuthorization: true,
   definition: {
     openapi: '3.0.0',
     info: {
@@ -137,6 +138,7 @@ export const swaggerOptions = {
             'category',
             'isNew',
             'isBest',
+            'color',
           ],
           properties: {
             id: {
@@ -310,6 +312,76 @@ export const swaggerOptions = {
             },
           },
         },
+        CartListResponse: {
+          type: 'object',
+          required: ['data'],
+          properties: {
+            data: {
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/CartResponse',
+              },
+            },
+          },
+        },
+        CartResponse: {
+          type: 'object',
+          required: [
+            'productId',
+            'productName',
+            'productPrice',
+            'productImageUrl',
+            'productColor',
+            'quantity',
+            'createdAt',
+          ],
+          properties: {
+            productId: {
+              type: 'number',
+              description: '상품 고유 ID',
+              example: 1,
+            },
+            productName: {
+              type: 'string',
+              description: '상품명',
+              example: '트윈 백',
+            },
+            productPrice: {
+              type: 'number',
+              description: '가격',
+              example: 150000,
+            },
+            productImageUrl: {
+              type: 'string',
+              description: '상품 이미지 URL',
+              example: 'https://example.com/image.jpg',
+            },
+            productColor: {
+              type: 'string',
+              description: '색상',
+              example: 'Black',
+            },
+            quantity: {
+              type: 'number',
+              description: '수량',
+              example: 2,
+            },
+            createdAt: {
+              type: 'string',
+              description: '장바구니에 담은 시각',
+              example: '2023-10-12T10:20:30Z',
+            },
+          },
+        },
+        Success: {
+          type: 'object',
+          properties: {
+            result: {
+              type: 'boolean',
+              example: true,
+            },
+          },
+        },
         Error: {
           type: 'object',
           properties: {
@@ -329,6 +401,16 @@ export const swaggerOptions = {
         },
       },
       responses: {
+        Success: {
+          description: '성공 응답',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Success',
+              },
+            },
+          },
+        },
         Error: {
           description: '에러 응답',
           content: {

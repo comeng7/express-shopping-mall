@@ -21,10 +21,14 @@ export class CartController {
    *     responses:
    *       200:
    *         description: 장바구니 조회 성공
+   *         content:
+   *           application/json:
+   *             schema:
+   *              $ref: '#/components/schemas/CartListResponse'
    *       4xx:
    *         $ref: '#/components/responses/Error'
    */
-  async getCartByUserId(req: Request, res: Response) {
+  async getCartByUserNo(req: Request, res: Response) {
     try {
       // auth 미들웨어에서 할당한 req.user
       const userNo = req.user?.userNo;
@@ -63,29 +67,24 @@ export class CartController {
    *     summary: 장바구니 상품 추가
    *     tags:
    *       - 장바구니
-   *     requestBody:
-   *       required: true
-   *       content:
-   *         application/json:
-   *           schema:
-   *             type: object
-   *             required:
-   *               - userId
-   *               - productId
-   *               - quantity
-   *             properties:
-   *               userId:
-   *                 type: integer
-   *                 example: 1
-   *               productId:
-   *                 type: integer
-   *                 example: 10
-   *               quantity:
-   *                 type: integer
-   *                 example: 2
+   *     security:
+   *       - bearerAuth: []
+   *     parameters:
+   *       - in: query
+   *         name: productId
+   *         required: true
+   *         schema:
+   *           type: integer
+   *         description: 상품 ID
+   *       - in: query
+   *         name: quantity
+   *         schema:
+   *           type: integer
+   *         description: 수량
    *     responses:
    *       200:
    *         description: 장바구니 추가 성공
+   *         $ref: '#/components/responses/Success'
    *       4xx:
    *         $ref: '#/components/responses/Error'
    */
@@ -102,7 +101,7 @@ export class CartController {
         });
       }
 
-      const { productId, quantity } = req.body;
+      const { productId, quantity } = req.query;
       if (!productId) {
         return res.status(400).json({
           status: 'error',
@@ -136,27 +135,24 @@ export class CartController {
 
   /**
    * @swagger
-   * /api/carts/{itemId}:
+   * /api/carts/{productId}:
    *   delete:
    *     summary: 장바구니 상품 삭제
    *     tags:
    *       - 장바구니
+   *     security:
+   *       - bearerAuth: []
    *     parameters:
-   *       - in: query
-   *         name: userId
-   *         required: true
-   *         schema:
-   *           type: integer
-   *         description: 회원 ID
    *       - in: path
-   *         name: itemId
+   *         name: productId
    *         required: true
    *         schema:
    *           type: integer
-   *         description: 장바구니 아이템 ID
+   *         description: 상품 ID
    *     responses:
    *       200:
    *         description: 장바구니 삭제 성공
+   *         $ref: '#/components/responses/Success'
    *       4xx:
    *         $ref: '#/components/responses/Error'
    */
@@ -173,18 +169,18 @@ export class CartController {
         });
       }
 
-      const itemId = Number(req.params.itemId);
+      const productId = Number(req.params.productId);
 
-      if (!itemId) {
+      if (!productId) {
         return res.status(400).json({
           status: 'error',
           code: 'INVALID_INPUT',
-          message: '유효하지 않은 장바구니 아이템 ID입니다.',
+          message: '유효하지 않은 상품 ID입니다.',
         });
       }
 
-      await this.cartService.removeItem(userNo, itemId);
-      return res.json({ message: 'Item removed from cart' });
+      const result = await this.cartService.removeItem(userNo, productId);
+      return res.json(result);
     } catch (error: unknown) {
       if (error instanceof BaseError) {
         return res.status(error.statusCode).json({

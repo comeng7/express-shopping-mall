@@ -15,20 +15,29 @@ export class CartRepository {
   }
 
   // 회원 장바구니 조회
-  async findAllByUserNo(userNo: number) {
-    return this.cartRepo
-      .createQueryBuilder('c')
-      .leftJoinAndSelect('c.cartItems', 'ci')
+  async findAllCartItemsByUserNo(userNo: number) {
+    return this.cartItemRepo
+      .createQueryBuilder('ci')
       .leftJoinAndSelect('ci.product', 'p')
-      .where('c.userId = :userNo', { userId: userNo })
-      .getOne();
+      .leftJoin('ci.cart', 'c')
+      .where('c.userId = :userNo', { userNo })
+      .select([
+        'ci.productId',
+        'ci.quantity',
+        'ci.createdAt',
+        'p.name',
+        'p.imageUrl',
+        'p.color',
+        'p.price',
+      ])
+      .getMany();
   }
 
   // 장바구니에 상품 추가
-  async addItem(userNo: number, productId: number, quantity: number) {
+  async addCartItem(userNo: number, productId: number, quantity: number) {
     let cart = await this.cartRepo
       .createQueryBuilder('c')
-      .where('c.userId = :userNo', { userId: userNo })
+      .where('c.userId = :userNo', { userNo })
       .getOne();
 
     // 회원의 장바구니가 없으면 생성
@@ -47,8 +56,8 @@ export class CartRepository {
       .getOne();
 
     if (existingItem) {
-      // 이미 존재하는 상품인 경우 수량만 증가
-      existingItem.quantity += quantity;
+      // 이미 존재하는 상품인 경우
+      existingItem.quantity = quantity;
       return this.cartItemRepo.save(existingItem);
     }
 
@@ -62,10 +71,10 @@ export class CartRepository {
   }
 
   // 장바구니에서 상품 삭제
-  async removeItem(userNo: number, cartItemId: number) {
+  async removeCartItem(userNo: number, cartItemId: number) {
     const cart = await this.cartRepo
       .createQueryBuilder('c')
-      .where('c.userId = :userNo', { userId: userNo })
+      .where('c.userId = :userNo', { userNo })
       .getOne();
 
     if (!cart) {
