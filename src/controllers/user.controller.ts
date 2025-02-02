@@ -18,7 +18,8 @@ export class UserController {
    *   post:
    *     summary: 회원가입
    *     description: 새로운 유저를 생성합니다.
-   *     tags: [유저]
+   *     tags:
+   *       - 유저
    *     requestBody:
    *       required: true
    *       content:
@@ -70,7 +71,8 @@ export class UserController {
    *   post:
    *     summary: 로그인
    *     description: 아이디와 비밀번호로 로그인합니다.
-   *     tags: [유저]
+   *     tags:
+   *       - 유저
    *     requestBody:
    *       required: true
    *       content:
@@ -129,7 +131,8 @@ export class UserController {
    * /api/users/me:
    *   get:
    *     summary: 내 정보 조회
-   *     tags: [유저]
+   *     tags:
+   *       - 유저
    *     security:
    *       - bearerAuth: []
    *     responses:
@@ -145,9 +148,9 @@ export class UserController {
   async getUserMe(req: Request, res: Response) {
     try {
       // auth 미들웨어에서 할당한 req.user
-      const userId = req.user?.userId;
+      const userNo = req.user?.userNo;
 
-      if (!userId) {
+      if (!userNo) {
         return res.status(401).json({
           status: 'error',
           code: 'UNAUTHORIZED',
@@ -156,7 +159,7 @@ export class UserController {
       }
 
       // DB에서 유저 정보 검색
-      const userData = await this.userService.getUserByUserId(userId);
+      const userData = await this.userService.getUserByUserNo(userNo);
       if (!userData) {
         return res.status(404).json({
           status: 'error',

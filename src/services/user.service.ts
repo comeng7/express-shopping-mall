@@ -73,7 +73,7 @@ export class UserService {
     }
 
     const token = jwt.sign(
-      { userId: user.userId },
+      { userNo: user.id },
       process.env.JWT_SECRET ?? 'secret',
       { expiresIn: '12h' },
     );
@@ -84,8 +84,8 @@ export class UserService {
   /**
    * 유저 정보 조회
    */
-  async getUserByUserId(userId: string) {
-    const user = await this.userRepository.findByUserId(userId);
+  async getUserByUserNo(userNo: number) {
+    const user = await this.userRepository.findByUserNo(userNo);
     if (!user) {
       throw new BaseError(404, '유저가 존재하지 않습니다.', 'USER_NOT_FOUND');
     }

@@ -37,6 +37,18 @@ export class UserRepository {
   }
 
   /**
+   * 유저 고유 ID로 유저 찾기
+   * @param id - 유저 고유 ID
+   * @returns User | null
+   */
+  async findByUserNo(id: number) {
+    return this.repository
+      .createQueryBuilder('u')
+      .where('u.id = :id', { id })
+      .getOne();
+  }
+
+  /**
    * 유저 생성
    * @param TCreateUserDto - 유저 생성 데이터
    * @returns User

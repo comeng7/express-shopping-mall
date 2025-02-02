@@ -1,3 +1,4 @@
+// swagger.config.ts
 import swaggerJsdoc from 'swagger-jsdoc';
 
 import { CATEGORY_CODE } from '@/constants/category.constants';
@@ -350,4 +351,5 @@ export const swaggerOptions = {
   },
   apis: [swaggerPath],
 };
+
 export const specs = swaggerJsdoc(swaggerOptions);

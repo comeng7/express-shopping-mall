@@ -10,6 +10,7 @@ import { AppDataSource } from '@/config/typeorm.config';
 import { commonMiddleware } from '@/middlewares/common.middleware';
 import { errorHandler } from '@/middlewares/error.middleware';
 import { requestLogger } from '@/middlewares/logger.middleware';
+import cartRouter from '@/routes/cart.routes';
 import productRouter from '@/routes/product.routes';
 import userRouter from '@/routes/user.routes';
 
@@ -43,6 +44,7 @@ AppDataSource.initialize()
     // 라우터 설정
     app.use('/api/products', productRouter);
     app.use('/api/users', userRouter);
+    app.use('/api/carts', cartRouter);
 
     // 에러 핸들링 미들웨어
     app.use(errorHandler);
