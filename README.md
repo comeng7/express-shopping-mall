@@ -15,7 +15,7 @@ Express와 TypeScript를 기반으로 제작되었으며, 레이어드 아키텍
 
 ## API 문서
 
-- Swagger UI: http://43.201.96.112/api-docs/
+- Swagger UI: https://comeng7.store/api-docs/
 
 ## 프로젝트 구조
 

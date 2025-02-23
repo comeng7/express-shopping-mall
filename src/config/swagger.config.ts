@@ -21,7 +21,7 @@ export const swaggerOptions = {
       {
         url:
           process.env.NODE_ENV === 'production'
-            ? `http://${process.env.EC2_PUBLIC_IP}`
+            ? `https://comeng7.store`
             : `http://localhost:${process.env.PORT || 3000}`,
         description:
           process.env.NODE_ENV === 'production' ? '운영 서버' : '개발 서버',
