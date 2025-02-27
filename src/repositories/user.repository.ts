@@ -2,7 +2,7 @@ import { Inject, Service } from 'typedi';
 import { Repository, DataSource } from 'typeorm';
 
 import { User } from '@/entities/User.entity';
-import { TCreateUserDto } from '@/validators/user.validator';
+import { TCreateUserDto, TUpdateUserDto } from '@/validators/user.validator';
 
 @Service()
 export class UserRepository {
@@ -56,5 +56,10 @@ export class UserRepository {
   async createUser(userData: Omit<TCreateUserDto, 'confirmPassword'>) {
     const user = this.repository.create(userData);
     return this.repository.save(user);
+  }
+
+  async updateUser(userNo: number, updateData: TUpdateUserDto) {
+    await this.repository.update({ id: userNo }, updateData);
+    return this.findByUserNo(userNo);
   }
 }

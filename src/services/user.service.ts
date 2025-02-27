@@ -4,7 +4,11 @@ import { Inject, Service } from 'typedi';
 
 import { BaseError } from '@/errors';
 import { UserRepository } from '@/repositories/user.repository';
-import { TCreateUserDto, TLoginDto } from '@/validators/user.validator';
+import {
+  TCreateUserDto,
+  TLoginDto,
+  TUpdateUserDto,
+} from '@/validators/user.validator';
 
 @Service()
 export class UserService {
@@ -99,6 +103,29 @@ export class UserService {
       address: user.address,
       userId: user.userId,
       createdAt: user.createdAt,
+    };
+  }
+
+  async updateUser(userNo: number, updateData: TUpdateUserDto) {
+    const user = await this.userRepository.findByUserNo(userNo);
+    if (!user) {
+      throw new BaseError(404, '유저가 존재하지 않습니다.', 'USER_NOT_FOUND');
+    }
+
+    const updatedUser = await this.userRepository.updateUser(
+      userNo,
+      updateData,
+    );
+
+    return {
+      id: updatedUser?.id,
+      name: updatedUser?.name,
+      email: updatedUser?.email,
+      phoneNumber: updatedUser?.phoneNumber,
+      postCode: updatedUser?.postCode,
+      address: updatedUser?.address,
+      userId: updatedUser?.userId,
+      createdAt: updatedUser?.createdAt,
     };
   }
 }

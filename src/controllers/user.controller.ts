@@ -6,7 +6,11 @@ import { ZodError } from 'zod';
 import { logger } from '@/config/logger.config';
 import { BaseError } from '@/errors';
 import { UserService } from '@/services/user.service';
-import { createUserSchema, loginSchema } from '@/validators/user.validator';
+import {
+  createUserSchema,
+  loginSchema,
+  updateUserSchema,
+} from '@/validators/user.validator';
 
 @Service()
 export class UserController {
@@ -142,7 +146,7 @@ export class UserController {
    *           application/json:
    *             schema:
    *               $ref: '#/components/schemas/UserResponse'
-   *       401:
+   *       400:
    *         $ref: '#/components/responses/Error'
    */
   async getUserMe(req: Request, res: Response) {
@@ -171,6 +175,72 @@ export class UserController {
       return res.json(userData);
     } catch (error: unknown) {
       if (error instanceof BaseError) {
+        return res.status(error.statusCode).json({
+          status: 'error',
+          code: error.code,
+          message: error.message,
+        });
+      } else {
+        logger.error('Unexpected error:', error);
+        return res.status(500).json({
+          status: 'error',
+          code: 'INTERNAL_SERVER_ERROR',
+          message: '서버 내부 오류가 발생했습니다.',
+        });
+      }
+    }
+  }
+
+  /**
+   * @swagger
+   * /api/users/me:
+   *   put:
+   *     summary: 내 정보 수정
+   *     tags:
+   *       - 유저
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             $ref: '#/components/schemas/UpdateUserDto'
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: 유저 정보 수정 성공
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/UserResponse'
+   *       400:
+   *         $ref: '#/components/responses/Error'
+   */
+  async updateUser(req: Request, res: Response) {
+    try {
+      const userNo = req.user?.userNo;
+      if (!userNo) {
+        return res.status(401).json({
+          status: 'error',
+          code: 'UNAUTHORIZED',
+          message: '로그인이 필요합니다.',
+        });
+      }
+
+      const validatedData = updateUserSchema.parse(req.body);
+      const updatedUser = await this.userService.updateUser(
+        userNo,
+        validatedData,
+      );
+      return res.json(updatedUser);
+    } catch (error: unknown) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({
+          status: 'error',
+          code: 'VALIDATION_ERROR',
+          errors: error.errors,
+        });
+      } else if (error instanceof BaseError) {
         return res.status(error.statusCode).json({
           status: 'error',
           code: error.code,

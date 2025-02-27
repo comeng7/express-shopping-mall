@@ -271,6 +271,32 @@ export const swaggerOptions = {
             },
           },
         },
+        UpdateUserDto: {
+          type: 'object',
+          properties: {
+            email: {
+              type: 'string',
+              format: 'email',
+              description: '이메일 주소',
+              example: 'hong@example.com',
+            },
+            phoneNumber: {
+              type: 'string',
+              description: '전화번호',
+              example: '01012345678',
+            },
+            postCode: {
+              type: 'string',
+              description: '우편번호 (선택사항)',
+              example: '12345',
+            },
+            address: {
+              type: 'string',
+              description: '주소 (선택사항)',
+              example: '서울시 강남구',
+            },
+          },
+        },
         UserResponse: {
           type: 'object',
           required: ['name', 'email', 'userId'],

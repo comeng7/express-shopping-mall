@@ -26,5 +26,16 @@ export const loginSchema = z.object({
   password: z.string().min(8, { message: '비밀번호는 8자 이상이어야 합니다.' }),
 });
 
+export const updateUserSchema = z.object({
+  email: z.string().email().optional(),
+  phoneNumber: z
+    .string()
+    .length(11, '전화번호는 11자 이어야 합니다.')
+    .optional(),
+  postCode: z.string().length(5, '우편번호는 5자리여야 합니다.').optional(),
+  address: z.string().optional(),
+});
+
 export type TCreateUserDto = z.infer<typeof createUserSchema>;
 export type TLoginDto = z.infer<typeof loginSchema>;
+export type TUpdateUserDto = z.infer<typeof updateUserSchema>;
