@@ -71,7 +71,7 @@ export class CartRepository {
   }
 
   // 장바구니에서 상품 삭제
-  async removeCartItem(userNo: number, cartItemId: number) {
+  async removeCartItem(userNo: number, productId: number) {
     const cart = await this.cartRepo
       .createQueryBuilder('c')
       .where('c.userId = :userNo', { userNo })
@@ -85,9 +85,9 @@ export class CartRepository {
     await this.cartItemRepo
       .createQueryBuilder()
       .delete()
-      .where('id = :cartItemId AND cartId = :cartId', {
-        cartItemId,
+      .where('cartId = :cartId AND productId = :productId', {
         cartId: cart.id,
+        productId,
       })
       .execute();
   }
